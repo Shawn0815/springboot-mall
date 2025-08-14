@@ -1,6 +1,5 @@
-package com.shawnyu.springbootmall.model;
+package com.shawnyu.springbootmall.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.Date;

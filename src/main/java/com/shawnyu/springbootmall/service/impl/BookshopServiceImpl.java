@@ -1,8 +1,9 @@
 package com.shawnyu.springbootmall.service.impl;
 
 import com.shawnyu.springbootmall.dao.BookshopDao;
+import com.shawnyu.springbootmall.dto.BookQueryParams;
 import com.shawnyu.springbootmall.model.Book;
-import com.shawnyu.springbootmall.model.BookRequest;
+import com.shawnyu.springbootmall.dto.BookRequest;
 import com.shawnyu.springbootmall.model.Category;
 import com.shawnyu.springbootmall.service.BookshopService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,18 @@ public class BookshopServiceImpl implements BookshopService {
     BookshopDao bookshopDao;
 
     @Override
-    public List<Book> getBooks(String category) {
-        return bookshopDao.getBooks(category);
+    public List<Category> getCategories() {
+        return bookshopDao.getCategories();
+    }
+
+    @Override
+    public Integer countBook(BookQueryParams bookQueryParams) {
+        return bookshopDao.countBook(bookQueryParams);
+    }
+
+    @Override
+    public List<Book> getBooks(BookQueryParams bookQueryParams) {
+        return bookshopDao.getBooks(bookQueryParams);
     }
 
     @Override

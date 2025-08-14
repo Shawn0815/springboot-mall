@@ -1,8 +1,9 @@
 package com.shawnyu.springbootmall.dao.impl;
 
 import com.shawnyu.springbootmall.dao.BookshopDao;
+import com.shawnyu.springbootmall.dto.BookQueryParams;
 import com.shawnyu.springbootmall.model.Book;
-import com.shawnyu.springbootmall.model.BookRequest;
+import com.shawnyu.springbootmall.dto.BookRequest;
 import com.shawnyu.springbootmall.model.Category;
 import com.shawnyu.springbootmall.rowmapper.BookRowMapper;
 import com.shawnyu.springbootmall.rowmapper.CategoryRowMapper;
@@ -25,16 +26,63 @@ public class BookshopDaoImpl implements BookshopDao {
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @Override
-    public List<Book> getBooks(String category) {
+    public List<Category> getCategories() {
+        String sql = "SELECT DISTINCT category FROM book";
+
+        Map<String, Object> map = new HashMap<>();
+
+        List<Category> categoryList = namedParameterJdbcTemplate.query(sql, map, new CategoryRowMapper());
+
+        return categoryList;
+    }
+
+    @Override
+    public Integer countBook(BookQueryParams bookQueryParams) {
+        String sql = "SELECT COUNT(*) FROM book WHERE 1=1";
+
+        Map<String, Object> map = new HashMap<>();
+
+        // 查詢條件
+        if (bookQueryParams.getCategory() != null) {
+            sql = sql + " AND category = :category";
+            map.put("category", bookQueryParams.getCategory());
+        }
+
+        if (bookQueryParams.getSearch() != null) {
+            sql = sql + " AND title LIKE :search";
+            map.put("search", "%" + bookQueryParams.getSearch() + "%");
+        }
+
+        Integer total = namedParameterJdbcTemplate.queryForObject(sql, map, Integer.class);
+
+        return total;
+    }
+
+    @Override
+    public List<Book> getBooks(BookQueryParams bookQueryParams) {
         String sql = "SELECT book_id, title, author, publisher, category, image_url, price, " +
                 "stock, is_public, published_date, description, created_date, last_modified_date FROM book WHERE 1=1";
 
         Map<String, Object> map = new HashMap<>();
 
-        if (category != null) {
+        // 查詢條件
+        if (bookQueryParams.getCategory() != null) {
             sql = sql + " AND category = :category";
-            map.put("category", category);
+            map.put("category", bookQueryParams.getCategory());
         }
+
+        if (bookQueryParams.getSearch() != null) {
+            sql = sql + " AND title LIKE :search";
+            map.put("search", "%" + bookQueryParams.getSearch() + "%");
+        }
+
+        // 排序
+        sql = sql + " ORDER BY " + bookQueryParams.getOrderBy() + " " + bookQueryParams.getSort();
+
+        // 分頁
+        sql = sql + " LIMIT :limit OFFSET :offset";
+        map.put("limit", bookQueryParams.getLimit());
+        map.put("offset", (bookQueryParams.getPage() - 1) * bookQueryParams.getLimit());
 
         List<Book> bookList = namedParameterJdbcTemplate.query(sql, map, new BookRowMapper());
 
