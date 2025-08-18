@@ -14,6 +14,7 @@ public class Book {
     private String imageUrl;
     private Integer price;
     private Integer stock;
+    private Integer salesCount;
     private Boolean isPublic;
     private Date publishedDate;
     private String description;
@@ -82,6 +83,14 @@ public class Book {
 
     public void setStock(Integer stock) {
         this.stock = stock;
+    }
+
+    public Integer getSalesCount() {
+        return salesCount;
+    }
+
+    public void setSalesCount(Integer salesCount) {
+        this.salesCount = salesCount;
     }
 
     public Boolean getIsPublic() {

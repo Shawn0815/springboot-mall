@@ -4,8 +4,8 @@ public class BookQueryParams {
 
     private String category;
     private String search;
-    private String sort;
-    private String orderBy;
+    private String sortBy;
+    private String order;
     private Integer page;
     private Integer limit;
 
@@ -25,20 +25,20 @@ public class BookQueryParams {
         this.search = search;
     }
 
-    public String getSort() {
-        return sort;
+    public String getSortBy() {
+        return sortBy;
     }
 
-    public void setSort(String sort) {
-        this.sort = sort;
+    public void setSortBy(String sortBy) {
+        this.sortBy = sortBy;
     }
 
-    public String getOrderBy() {
-        return orderBy;
+    public String getOrder() {
+        return order;
     }
 
-    public void setOrderBy(String orderBy) {
-        this.orderBy = orderBy;
+    public void setOrder(String order) {
+        this.order = order;
     }
 
     public Integer getPage() {

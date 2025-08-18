@@ -61,7 +61,7 @@ public class BookshopDaoImpl implements BookshopDao {
     @Override
     public List<Book> getBooks(BookQueryParams bookQueryParams) {
         String sql = "SELECT book_id, title, author, publisher, category, image_url, price, " +
-                "stock, is_public, published_date, description, created_date, last_modified_date FROM book WHERE 1=1";
+                "stock, sales_count, is_public, published_date, description, created_date, last_modified_date FROM book WHERE 1=1";
 
         Map<String, Object> map = new HashMap<>();
 
@@ -72,12 +72,12 @@ public class BookshopDaoImpl implements BookshopDao {
         }
 
         if (bookQueryParams.getSearch() != null) {
-            sql = sql + " AND title LIKE :search";
+            sql = sql + " AND (title LIKE :search OR author LIKE :search)";
             map.put("search", "%" + bookQueryParams.getSearch() + "%");
         }
 
         // 排序
-        sql = sql + " ORDER BY " + bookQueryParams.getOrderBy() + " " + bookQueryParams.getSort();
+        sql = sql + " ORDER BY " + bookQueryParams.getSortBy() + " " + bookQueryParams.getOrder();
 
         // 分頁
         sql = sql + " LIMIT :limit OFFSET :offset";
@@ -92,7 +92,7 @@ public class BookshopDaoImpl implements BookshopDao {
     @Override
     public Book getBookById(Integer bookId) {
         String sql = "SELECT book_id, title, author, publisher, category, image_url, price, " +
-                "stock, is_public, published_date, description, created_date, last_modified_date FROM book WHERE book_id = :bookId";
+                "stock, sales_count, is_public, published_date, description, created_date, last_modified_date FROM book WHERE book_id = :bookId";
 
         Map<String, Object> map = new HashMap<>();
         map.put("bookId", bookId);
@@ -109,8 +109,8 @@ public class BookshopDaoImpl implements BookshopDao {
     @Override
     public Integer createBook(BookRequest bookRequest) {
         String sql = "INSERT INTO book(title, author, publisher, category, image_url, price, stock, " +
-                "is_public, published_date, description, created_date, last_modified_date) VALUES " +
-                "(:title, :author, :publisher, :category, :image_url, :price, :stock, :is_public, " +
+                "sales_count, is_public, published_date, description, created_date, last_modified_date) VALUES " +
+                "(:title, :author, :publisher, :category, :image_url, :price, :stock, :salesCount, :is_public, " +
                 ":published_date, :description, :created_date, :last_modified_date)";
 
         Map<String, Object> map = new HashMap<>();
@@ -121,6 +121,7 @@ public class BookshopDaoImpl implements BookshopDao {
         map.put("image_url", bookRequest.getImageUrl());
         map.put("price", bookRequest.getPrice());
         map.put("stock", bookRequest.getStock());
+        map.put("salesCount", bookRequest.getSalesCount());
         map.put("is_public", bookRequest.getIsPublic());
         map.put("published_date", bookRequest.getPublishedDate());
         map.put("description", bookRequest.getDescription());
@@ -141,7 +142,7 @@ public class BookshopDaoImpl implements BookshopDao {
     @Override
     public void updateBook(Integer bookId, BookRequest bookRequest) {
         String sql = "UPDATE book SET title = :title, author = :author, publisher = :publisher, " +
-                "category = :category, image_url = :imageUrl, price = :price, stock = :stock, " +
+                "category = :category, image_url = :imageUrl, price = :price, stock = :stock, sales_count = :salesCount" +
                 "is_public = :isPublic, published_date = :publishedDate, description = :description " +
                 "WHERE book_id = :bookId";
 
@@ -154,6 +155,7 @@ public class BookshopDaoImpl implements BookshopDao {
         map.put("imageUrl", bookRequest.getImageUrl());
         map.put("price", bookRequest.getPrice());
         map.put("stock", bookRequest.getStock());
+        map.put("salesCount", bookRequest.getSalesCount());
         map.put("isPublic", bookRequest.getIsPublic());
         map.put("publishedDate", bookRequest.getPublishedDate());
         map.put("description", bookRequest.getDescription());

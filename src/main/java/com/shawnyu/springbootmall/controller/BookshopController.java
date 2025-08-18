@@ -40,8 +40,8 @@ public class BookshopController {
             @RequestParam(required = false) String search,
 
             // 排序 Sorting
-            @RequestParam(defaultValue = "published_date") String orderBy,
-            @RequestParam(defaultValue = "desc") String sort,
+            @RequestParam(defaultValue = "published_date") String sortBy,
+            @RequestParam(defaultValue = "desc") String order,
 
             // 分頁 Pagination
             @RequestParam(defaultValue = "1") @Min(1) Integer page,
@@ -50,8 +50,8 @@ public class BookshopController {
         BookQueryParams bookQueryParams = new BookQueryParams();
         bookQueryParams.setCategory(category);
         bookQueryParams.setSearch(search);
-        bookQueryParams.setSort(sort);
-        bookQueryParams.setOrderBy(orderBy);
+        bookQueryParams.setSortBy(sortBy);
+        bookQueryParams.setOrder(order);
         bookQueryParams.setPage(page);
         bookQueryParams.setLimit(limit);
 

@@ -27,6 +27,9 @@ public class BookRequest {
     @NotNull
     private Integer stock;
 
+
+    private Integer salesCount;
+
     @NotNull
     private Boolean isPublic;
 
@@ -89,6 +92,14 @@ public class BookRequest {
 
     public void setStock(Integer stock) {
         this.stock = stock;
+    }
+
+    public Integer getSalesCount() {
+        return salesCount;
+    }
+
+    public void setSalesCount(Integer salesCount) {
+        this.salesCount = salesCount;
     }
 
     public Boolean getIsPublic() {
