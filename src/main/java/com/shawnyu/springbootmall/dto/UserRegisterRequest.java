@@ -1,10 +1,12 @@
 package com.shawnyu.springbootmall.dto;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
 public class UserRegisterRequest {
 
     @NotBlank
+    @Email // 限制前端傳來的參數必須為 email 格式
     private String email;
 
     @NotBlank

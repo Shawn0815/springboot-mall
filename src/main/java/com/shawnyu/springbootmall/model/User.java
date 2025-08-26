@@ -1,12 +1,18 @@
 package com.shawnyu.springbootmall.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.sql.Date;
 
 public class User {
 
     private Integer userId;
     private String email;
+
+    @JsonIgnore // 回傳 User 時會隱藏 password 變數
     private String password;
+
     private Date createdDate;
     private Date lastModifiedDate;
 
