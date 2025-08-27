@@ -1,4 +1,4 @@
-package com.shawnyu.springbootmall.dao;
+package com.shawnyu.springbootmall.service;
 
 import com.shawnyu.springbootmall.dto.BookQueryParams;
 import com.shawnyu.springbootmall.model.Book;
@@ -7,7 +7,7 @@ import com.shawnyu.springbootmall.model.Category;
 
 import java.util.List;
 
-public interface BookshopDao {
+public interface BookService {
 
     List<Category> getCategories();
 

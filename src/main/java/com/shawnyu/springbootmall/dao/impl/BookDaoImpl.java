@@ -1,6 +1,6 @@
 package com.shawnyu.springbootmall.dao.impl;
 
-import com.shawnyu.springbootmall.dao.BookshopDao;
+import com.shawnyu.springbootmall.dao.BookDao;
 import com.shawnyu.springbootmall.dto.BookQueryParams;
 import com.shawnyu.springbootmall.model.Book;
 import com.shawnyu.springbootmall.dto.BookRequest;
@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-public class BookshopDaoImpl implements BookshopDao {
+public class BookDaoImpl implements BookDao {
 
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;

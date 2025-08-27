@@ -4,7 +4,7 @@ import com.shawnyu.springbootmall.dto.BookQueryParams;
 import com.shawnyu.springbootmall.model.Book;
 import com.shawnyu.springbootmall.dto.BookRequest;
 import com.shawnyu.springbootmall.model.Category;
-import com.shawnyu.springbootmall.service.BookshopService;
+import com.shawnyu.springbootmall.service.BookService;
 import com.shawnyu.springbootmall.util.Page;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
@@ -22,12 +22,12 @@ import java.util.List;
 public class BookshopController {
 
     @Autowired
-    BookshopService bookshopService;
+    BookService bookService;
 
     // 取得所有類別
     @GetMapping("/categories")
     public ResponseEntity<List<Category>> getCategories() {
-        List<Category> categoryList = bookshopService.getCategories();
+        List<Category> categoryList = bookService.getCategories();
 
         return ResponseEntity.status(HttpStatus.OK).body(categoryList);
     }
@@ -56,10 +56,10 @@ public class BookshopController {
         bookQueryParams.setLimit(limit);
 
         // 取得 book list
-        List<Book> bookList = bookshopService.getBooks(bookQueryParams);
+        List<Book> bookList = bookService.getBooks(bookQueryParams);
 
         // 取得 book 總數
-        Integer total = bookshopService.countBook(bookQueryParams);
+        Integer total = bookService.countBook(bookQueryParams);
 
         // 分頁
         Page<Book> pageObject = new Page<>();
@@ -74,7 +74,7 @@ public class BookshopController {
     // 取得特定 id 的書籍
     @GetMapping("/books/{bookId}")
     public ResponseEntity<Book> getBook(@PathVariable Integer bookId) {
-        Book book = bookshopService.getBookById(bookId);
+        Book book = bookService.getBookById(bookId);
 
         if (book == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -86,9 +86,9 @@ public class BookshopController {
     // 新增書籍
     @PostMapping("/books")
     public ResponseEntity<Book> createBook(@RequestBody @Valid BookRequest bookRequest) {
-        Integer bookId = bookshopService.createBook(bookRequest);
+        Integer bookId = bookService.createBook(bookRequest);
 
-        Book book = bookshopService.getBookById(bookId);
+        Book book = bookService.getBookById(bookId);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(book);
     }
@@ -99,15 +99,15 @@ public class BookshopController {
                                            @RequestBody @Valid BookRequest bookRequest) {
 
         // 檢查 book 是否存在
-        Book book = bookshopService.getBookById(bookId);
+        Book book = bookService.getBookById(bookId);
 
         if (book == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(book);
         }
 
-        bookshopService.updateBook(bookId, bookRequest);
+        bookService.updateBook(bookId, bookRequest);
 
-        Book updatedBook = bookshopService.getBookById(bookId);
+        Book updatedBook = bookService.getBookById(bookId);
 
         return ResponseEntity.status(HttpStatus.OK).body(updatedBook);
     }
@@ -115,7 +115,7 @@ public class BookshopController {
     // 刪除特定 id 的書籍
     @DeleteMapping("/books/{bookId}")
     public ResponseEntity<?> deleteBook(@PathVariable Integer bookId) {
-        bookshopService.deleteBookById(bookId);
+        bookService.deleteBookById(bookId);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

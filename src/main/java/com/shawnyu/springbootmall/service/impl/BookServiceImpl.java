@@ -1,54 +1,54 @@
 package com.shawnyu.springbootmall.service.impl;
 
-import com.shawnyu.springbootmall.dao.BookshopDao;
+import com.shawnyu.springbootmall.dao.BookDao;
 import com.shawnyu.springbootmall.dto.BookQueryParams;
 import com.shawnyu.springbootmall.model.Book;
 import com.shawnyu.springbootmall.dto.BookRequest;
 import com.shawnyu.springbootmall.model.Category;
-import com.shawnyu.springbootmall.service.BookshopService;
+import com.shawnyu.springbootmall.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
-public class BookshopServiceImpl implements BookshopService {
+public class BookServiceImpl implements BookService {
 
     @Autowired
-    BookshopDao bookshopDao;
+    BookDao bookDao;
 
     @Override
     public List<Category> getCategories() {
-        return bookshopDao.getCategories();
+        return bookDao.getCategories();
     }
 
     @Override
     public Integer countBook(BookQueryParams bookQueryParams) {
-        return bookshopDao.countBook(bookQueryParams);
+        return bookDao.countBook(bookQueryParams);
     }
 
     @Override
     public List<Book> getBooks(BookQueryParams bookQueryParams) {
-        return bookshopDao.getBooks(bookQueryParams);
+        return bookDao.getBooks(bookQueryParams);
     }
 
     @Override
     public Book getBookById(Integer bookId) {
-        return bookshopDao.getBookById(bookId);
+        return bookDao.getBookById(bookId);
     }
 
     @Override
     public Integer createBook(BookRequest bookRequest) {
-        return bookshopDao.createBook(bookRequest);
+        return bookDao.createBook(bookRequest);
     }
 
     @Override
     public void updateBook(Integer bookId, BookRequest bookRequest) {
-        bookshopDao.updateBook(bookId, bookRequest);
+        bookDao.updateBook(bookId, bookRequest);
     }
 
     @Override
     public void deleteBookById(Integer bookId) {
-        bookshopDao.deleteBookById(bookId);
+        bookDao.deleteBookById(bookId);
     }
 }
