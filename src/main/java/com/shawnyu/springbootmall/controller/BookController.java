@@ -19,7 +19,7 @@ import java.util.List;
 
 @RestController
 @Validated
-public class BookshopController {
+public class BookController {
 
     @Autowired
     BookService bookService;
