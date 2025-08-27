@@ -166,6 +166,32 @@ public class BookDaoImpl implements BookDao {
     }
 
     @Override
+    public void updateStock(Integer bookId, Integer stock) {
+        String sql = "UPDATE book SET stock = :stock, last_modified_date = :lastModifiedDate " +
+                "WHERE book_id = :bookId";
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("bookId", bookId);
+        map.put("stock", stock);
+        map.put("lastModifiedDate", new Date());
+
+        namedParameterJdbcTemplate.update(sql, map);
+    }
+
+    @Override
+    public void updateSalesCount(Integer bookId, Integer salesCount) {
+        String sql = "UPDATE book SET sales_count = :salesCount, last_modified_date = :lastModifiedDate " +
+                "WHERE book_id = :bookId";
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("bookId", bookId);
+        map.put("salesCount", salesCount);
+        map.put("lastModifiedDate", new Date());
+
+        namedParameterJdbcTemplate.update(sql, map);
+    }
+
+    @Override
     public void deleteBookById(Integer bookId) {
         String sql = "DELETE FROM book WHERE book_id = :bookId";
 
