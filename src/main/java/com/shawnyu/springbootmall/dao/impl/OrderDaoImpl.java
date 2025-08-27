@@ -1,7 +1,10 @@
 package com.shawnyu.springbootmall.dao.impl;
 
 import com.shawnyu.springbootmall.dao.OrderDao;
+import com.shawnyu.springbootmall.model.Order;
 import com.shawnyu.springbootmall.model.OrderItem;
+import com.shawnyu.springbootmall.rowmapper.OrderItemRowMapper;
+import com.shawnyu.springbootmall.rowmapper.OrderRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -20,6 +23,37 @@ public class OrderDaoImpl implements OrderDao {
 
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
+    @Override
+    public Order getOrderById(Integer orderId) {
+        String sql = "SELECT order_id, user_id, total_amount, created_date, last_modified_date FROM" +
+                "`order` WHERE `order_id` = :orderId";
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("orderId", orderId);
+
+        List<Order> orderList = namedParameterJdbcTemplate.query(sql, map, new OrderRowMapper());
+
+        if (orderList.size() <= 0) {
+            return null;
+        }
+
+        return orderList.get(0);
+    }
+
+    @Override
+    public List<OrderItem> getOrderItemsByOrderId(Integer orderId) {
+        String sql = "SELECT oi.order_item_id, oi.order_id, oi.book_id, oi.price, oi.quantity, oi.amount, b.title, b.image_url " +
+                "FROM order_item as oi LEFT JOIN book as b ON oi.book_id = b.book_id " +
+                "WHERE oi.order_id = :orderId";
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("orderId", orderId);
+
+        List<OrderItem> orderItemList = namedParameterJdbcTemplate.query(sql, map, new OrderItemRowMapper());
+
+        return orderItemList;
+    }
 
     @Transactional // 確保兩個資料庫操作會同時發生或不發生
     @Override
@@ -62,8 +96,8 @@ public class OrderDaoImpl implements OrderDao {
 //        }
 
         // 方法 2：使用 batchUpdate 一次性加入所有數據（效率較高）
-        String sql = "INSERT INTO order_item(order_id, book_id, quantity, price, amount) " +
-                "VALUES (:orderId, :bookId, :quantity, :price, :amount)";
+        String sql = "INSERT INTO order_item(order_id, book_id, price, quantity, amount) " +
+                "VALUES (:orderId, :bookId, :price, :quantity, :amount)";
 
         MapSqlParameterSource[] parameterSources = new MapSqlParameterSource[orderItemList.size()];
 
@@ -73,8 +107,8 @@ public class OrderDaoImpl implements OrderDao {
             parameterSources[i] = new MapSqlParameterSource();
             parameterSources[i].addValue("orderId", orderId);
             parameterSources[i].addValue("bookId", orderItem.getBookId());
-            parameterSources[i].addValue("quantity", orderItem.getQuantity());
             parameterSources[i].addValue("price", orderItem.getPrice());
+            parameterSources[i].addValue("quantity", orderItem.getQuantity());
             parameterSources[i].addValue("amount", orderItem.getAmount());
         }
 
