@@ -1,6 +1,4 @@
-package com.shawnyu.springbootmall.model;
-
-import com.shawnyu.springbootmall.dto.CartItemDTO;
+package com.shawnyu.springbootmall.dto;
 
 import java.util.List;
 

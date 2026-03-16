@@ -7,7 +7,7 @@ public class Page<T> {
     private Integer page;
     private Integer limit;
     private Integer total;
-    private List<T> Books;
+    private List<T> items;
 
     public Integer getPage() {
         return page;
@@ -33,11 +33,11 @@ public class Page<T> {
         this.total = total;
     }
 
-    public List<T> getBooks() {
-        return Books;
+    public List<T> getItems() {
+        return items;
     }
 
-    public void setBooks(List<T> books) {
-        Books = books;
+    public void setItems(List<T> items) {
+        this.items = items;
     }
 }

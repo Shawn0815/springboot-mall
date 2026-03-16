@@ -6,7 +6,7 @@ import java.util.List;
 
 public class CreateOrderRequest {
 
-    @NotEmpty // 驗證集合不可為空的
+    @NotEmpty(message = "欲購買書籍不可為空") // 驗證集合不可為空的
     List<BuyItem> buyItemList;
 
     public List<BuyItem> getBuyItemList() {

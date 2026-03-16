@@ -60,8 +60,8 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public List<Book> getBooks(BookQueryParams bookQueryParams) {
-        String sql = "SELECT book_id, title, author, publisher, category, image_url, price, " +
-                "stock, sales_count, is_public, published_date, description, created_date, last_modified_date FROM book WHERE 1=1";
+        String sql = "SELECT book_id, title, author, publisher, published_date, price, category, image_url, " +
+                "description, stock, sales_count, created_date, last_modified_date, original_url  FROM book WHERE 1=1";
 
         Map<String, Object> map = new HashMap<>();
 
@@ -91,8 +91,8 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public Book getBookById(Integer bookId) {
-        String sql = "SELECT book_id, title, author, publisher, category, image_url, price, " +
-                "stock, sales_count, is_public, published_date, description, created_date, last_modified_date FROM book WHERE book_id = :bookId";
+        String sql = "SELECT book_id, title, author, publisher, published_date, price, category, image_url, " +
+                "description, stock, sales_count, created_date, last_modified_date, original_url  FROM book WHERE book_id = :bookId";
 
         Map<String, Object> map = new HashMap<>();
         map.put("bookId", bookId);
@@ -108,23 +108,24 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public Integer createBook(BookRequest bookRequest) {
-        String sql = "INSERT INTO book(title, author, publisher, category, image_url, price, stock, " +
-                "sales_count, is_public, published_date, description, created_date, last_modified_date) VALUES " +
-                "(:title, :author, :publisher, :category, :image_url, :price, :stock, :salesCount, :is_public, " +
-                ":published_date, :description, :created_date, :last_modified_date)";
+        String sql = "INSERT INTO book(title, author, publisher, published_date, price, category, image_url, description, " +
+                "stock, sales_count, created_date, last_modified_date, original_url) VALUES " +
+                "(:title, :author, :publisher, :published_date, :price, :category, :image_url, :description, :stock, :salesCount, " +
+                " :created_date, :last_modified_date, originalUrl)";
 
         Map<String, Object> map = new HashMap<>();
         map.put("title", bookRequest.getTitle());
         map.put("author", bookRequest.getAuthor());
         map.put("publisher", bookRequest.getPublisher());
+        map.put("published_date", bookRequest.getPublishedDate());
+        map.put("price", bookRequest.getPrice());
         map.put("category", bookRequest.getCategory());
         map.put("image_url", bookRequest.getImageUrl());
-        map.put("price", bookRequest.getPrice());
+        map.put("description", bookRequest.getDescription());
         map.put("stock", bookRequest.getStock());
         map.put("salesCount", bookRequest.getSalesCount());
-        map.put("is_public", bookRequest.getIsPublic());
-        map.put("published_date", bookRequest.getPublishedDate());
-        map.put("description", bookRequest.getDescription());
+        map.put("originalUrl", bookRequest.getOriginalUrl());
+
 
         Date now = new Date();
         map.put("created_date", now);
@@ -141,25 +142,23 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public void updateBook(Integer bookId, BookRequest bookRequest) {
-        String sql = "UPDATE book SET title = :title, author = :author, publisher = :publisher, " +
-                "category = :category, image_url = :imageUrl, price = :price, stock = :stock, sales_count = :salesCount" +
-                "is_public = :isPublic, published_date = :publishedDate, description = :description " +
-                "WHERE book_id = :bookId";
+        String sql = "UPDATE book SET title = :title, author = :author, publisher = :publisher, published_date = :publishedDate, " +
+                "price = :price, category = :category, image_url = :imageUrl, description = :description, " +
+                "stock = :stock, sales_count = :salesCount, original_url = :originalUrl WHERE book_id = :bookId";
 
         Map<String, Object> map = new HashMap<>();
         map.put("bookId", bookId); // 記得要額外設定成參數值
         map.put("title", bookRequest.getTitle());
         map.put("author", bookRequest.getAuthor());
         map.put("publisher", bookRequest.getPublisher());
+        map.put("publishedDate", bookRequest.getPublishedDate());
+        map.put("price", bookRequest.getPrice());
         map.put("category", bookRequest.getCategory());
         map.put("imageUrl", bookRequest.getImageUrl());
-        map.put("price", bookRequest.getPrice());
+        map.put("description", bookRequest.getDescription());
         map.put("stock", bookRequest.getStock());
         map.put("salesCount", bookRequest.getSalesCount());
-        map.put("isPublic", bookRequest.getIsPublic());
-        map.put("publishedDate", bookRequest.getPublishedDate());
-        map.put("description", bookRequest.getDescription());
-
+        map.put("orinalUrl", bookRequest.getOriginalUrl());
         map.put("last_modified_date", new Date());
 
         namedParameterJdbcTemplate.update(sql, map);

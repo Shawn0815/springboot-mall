@@ -5,6 +5,7 @@ import com.shawnyu.springbootmall.dto.UserLoginRequest;
 import com.shawnyu.springbootmall.dto.UserRegisterRequest;
 import com.shawnyu.springbootmall.model.User;
 import com.shawnyu.springbootmall.service.UserService;
+import jakarta.validation.ValidationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,14 +29,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User getUserByEmail(String email) {
+        return userDao.getUserByEmail(email);
+    }
+
+    @Override
     public Integer register(UserRegisterRequest userRegisterRequest) {
-        // 檢查註冊的 email
+
+        // 1. 檢查帳號是否已被註冊
         User user = userDao.getUserByEmail(userRegisterRequest.getEmail());
 
-        // email 已經被註冊了
         if (user != null) {
             log.warn("該 email {} 已經被註冊", userRegisterRequest.getEmail());
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST); // 請求被迫停止，噴出錯誤碼
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "該帳號已經被註冊");
         }
 
         // 使用 MD5 生成密碼的雜湊值
@@ -50,19 +56,19 @@ public class UserServiceImpl implements UserService {
     public User login(UserLoginRequest userLoginRequest) {
         User user = userDao.getUserByEmail(userLoginRequest.getEmail());
 
-        // 檢查 user 是否存在
+        // 1. 檢查帳號是否存在
         if (user == null) {
             log.warn("該 email {} 尚未註冊", userLoginRequest.getEmail());
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "帳號不存在");
         }
 
         // 使用 MD5 生成密碼的雜湊值
         String hashedPassword = DigestUtils.md5DigestAsHex(userLoginRequest.getPassword().getBytes());
 
-        // 比較密碼（比較字串一定要用 equals 方法）
+        // 2. 檢查密碼是否正確（記得用 equals）
         if (!user.getPassword().equals(hashedPassword)) {
             log.warn("email {} 的密碼不正確", userLoginRequest.getEmail());
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "密碼錯誤");
         }
 
         return user;

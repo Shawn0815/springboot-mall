@@ -8,6 +8,8 @@ public interface UserService {
 
     User getUserbyId(Integer userId);
 
+    User getUserByEmail(String email);
+
     Integer register(UserRegisterRequest userRegisterRequest);
 
     User login(UserLoginRequest userLoginRequest);

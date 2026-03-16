@@ -10,16 +10,16 @@ public class Book {
     private String title;
     private String author;
     private String publisher;
+    private Date publishedDate;
+    private Integer price;
     private String category;
     private String imageUrl;
-    private Integer price;
+    private String description;
     private Integer stock;
     private Integer salesCount;
-    private Boolean isPublic;
-    private Date publishedDate;
-    private String description;
     private Date createdDate;
     private Date lastModifiedDate;
+    private String originalUrl;
 
     public Integer getBookId() {
         return bookId;
@@ -53,6 +53,22 @@ public class Book {
         this.publisher = publisher;
     }
 
+    public Date getPublishedDate() {
+        return publishedDate;
+    }
+
+    public void setPublishedDate(Date publishedDate) {
+        this.publishedDate = publishedDate;
+    }
+
+    public Integer getPrice() {
+        return price;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
+    }
+
     public String getCategory() {
         return category;
     }
@@ -69,12 +85,12 @@ public class Book {
         this.imageUrl = imageUrl;
     }
 
-    public Integer getPrice() {
-        return price;
+    public String getDescription() {
+        return description;
     }
 
-    public void setPrice(Integer price) {
-        this.price = price;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Integer getStock() {
@@ -93,30 +109,6 @@ public class Book {
         this.salesCount = salesCount;
     }
 
-    public Boolean getIsPublic() {
-        return isPublic;
-    }
-
-    public void setIsPublic(Boolean aPublic) {
-        isPublic = aPublic;
-    }
-
-    public Date getPublishedDate() {
-        return publishedDate;
-    }
-
-    public void setPublishedDate(Date publishedDate) {
-        this.publishedDate = publishedDate;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public Date getCreatedDate() {
         return createdDate;
     }
@@ -131,6 +123,14 @@ public class Book {
 
     public void setLastModifiedDate(Date lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
+    }
+
+    public String getOriginalUrl() {
+        return originalUrl;
+    }
+
+    public void setOriginalUrl(String originalUrl) {
+        this.originalUrl = originalUrl;
     }
 }
 

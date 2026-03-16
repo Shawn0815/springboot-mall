@@ -16,16 +16,16 @@ public class BookRowMapper implements RowMapper<Book> {
         book.setTitle(resultSet.getString("title"));
         book.setAuthor(resultSet.getString("author"));
         book.setPublisher(resultSet.getString("publisher"));
+        book.setPublishedDate(resultSet.getDate("published_date"));
+        book.setPrice(resultSet.getInt("price"));
         book.setCategory(resultSet.getString("category"));
         book.setImageUrl(resultSet.getString("image_url"));
-        book.setPrice(resultSet.getInt("price"));
+        book.setDescription(resultSet.getString("description"));
         book.setStock(resultSet.getInt("stock"));
         book.setSalesCount(resultSet.getInt("sales_count"));
-        book.setIsPublic(resultSet.getBoolean("is_public"));
-        book.setPublishedDate(resultSet.getDate("published_date"));
-        book.setDescription(resultSet.getString("description"));
         book.setCreatedDate(resultSet.getTimestamp("created_date"));
         book.setLastModifiedDate(resultSet.getTimestamp("last_modified_date"));
+        book.setOriginalUrl(resultSet.getString("original_url"));
 
         return book;
     }

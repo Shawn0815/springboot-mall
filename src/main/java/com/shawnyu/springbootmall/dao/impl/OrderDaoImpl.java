@@ -91,7 +91,6 @@ public class OrderDaoImpl implements OrderDao {
         return orderItemList;
     }
 
-    @Transactional // 確保兩個資料庫操作會同時發生或不發生
     @Override
     public Integer createOrder(Integer userId, Integer totalAmount) {
         String sql = "INSERT INTO `order`(user_id, total_amount, created_date, last_modified_date) " +

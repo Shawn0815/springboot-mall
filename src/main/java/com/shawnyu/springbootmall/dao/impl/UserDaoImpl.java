@@ -24,7 +24,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User getUserbyId(Integer userId) {
-        String sql = "SELECT user_id, email, password, created_date, last_modified_date " +
+        String sql = "SELECT user_id, user_name, email, password, created_date, last_modified_date " +
                 "FROM user WHERE user_id = :userId";
 
         Map<String, Object> map = new HashMap<>();
@@ -42,7 +42,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User getUserByEmail(String email) {
-        String sql = "SELECT user_id, email, password, created_date, last_modified_date " +
+        String sql = "SELECT user_id, user_name, email, password, created_date, last_modified_date " +
                 "FROM user WHERE email = :email";
 
         Map<String, Object> map = new HashMap<>();
@@ -60,11 +60,12 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public Integer createUser(UserRegisterRequest userRegisterRequest) {
-        String sql = "INSERT INTO user(email, password, created_date, last_modified_date) " +
-                "VALUES (:email, :password, :createdDate, :lastModfiedDate)";
+        String sql = "INSERT INTO user(user_name, email, password, created_date, last_modified_date) " +
+                "VALUES (:userName, :email, :password, :createdDate, :lastModfiedDate)";
 
         Map<String, Object> map = new HashMap<>();
 
+        map.put("userName", userRegisterRequest.getName());
         map.put("email", userRegisterRequest.getEmail());
         map.put("password", userRegisterRequest.getPassword());
 

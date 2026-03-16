@@ -47,6 +47,7 @@ public class BookController {
             @RequestParam(defaultValue = "1") @Min(1) Integer page,
             @RequestParam(defaultValue = "8") @Max(1000) @Min(0) Integer limit
     ) {
+
         BookQueryParams bookQueryParams = new BookQueryParams();
         bookQueryParams.setCategory(category);
         bookQueryParams.setSearch(search);
@@ -66,7 +67,7 @@ public class BookController {
         pageObject.setPage(page);
         pageObject.setLimit(limit);
         pageObject.setTotal(total);
-        pageObject.setBooks(bookList);
+        pageObject.setItems(bookList);
 
         return ResponseEntity.status(HttpStatus.OK).body(pageObject);
     }
@@ -83,7 +84,7 @@ public class BookController {
         return ResponseEntity.status(HttpStatus.OK).body(book);
     }
 
-    // 新增書籍
+    // Create：新增書籍
     @PostMapping("/books")
     public ResponseEntity<Book> createBook(@RequestBody @Valid BookRequest bookRequest) {
         Integer bookId = bookService.createBook(bookRequest);
@@ -93,7 +94,7 @@ public class BookController {
         return ResponseEntity.status(HttpStatus.CREATED).body(book);
     }
 
-    // 更新特定 id 的書籍
+    // Update：更新特定書籍
     @PutMapping("books/{bookId}")
     public ResponseEntity<Book> updateBook(@PathVariable Integer bookId,
                                            @RequestBody @Valid BookRequest bookRequest) {
@@ -102,7 +103,7 @@ public class BookController {
         Book book = bookService.getBookById(bookId);
 
         if (book == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(book);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
         bookService.updateBook(bookId, bookRequest);
@@ -112,7 +113,7 @@ public class BookController {
         return ResponseEntity.status(HttpStatus.OK).body(updatedBook);
     }
 
-    // 刪除特定 id 的書籍
+    // Delete：刪除特定書籍
     @DeleteMapping("/books/{bookId}")
     public ResponseEntity<?> deleteBook(@PathVariable Integer bookId) {
         bookService.deleteBookById(bookId);

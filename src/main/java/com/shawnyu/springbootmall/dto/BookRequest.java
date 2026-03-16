@@ -15,28 +15,25 @@ public class BookRequest {
     @NotNull
     private String publisher;
 
+    private Date publishedDate;
+
+    @NotNull
+    private Integer price;
+
     @NotNull
     private String category;
 
     @NotNull
     private String imageUrl;
 
-    @NotNull
-    private Integer price;
+    private String description;
 
     @NotNull
     private Integer stock;
 
-
     private Integer salesCount;
 
-    @NotNull
-    private Boolean isPublic;
-
-    private Date publishedDate;
-
-    private String description;
-
+    private String originalUrl;
 
     public String getTitle() {
         return title;
@@ -62,6 +59,22 @@ public class BookRequest {
         this.publisher = publisher;
     }
 
+    public Date getPublishedDate() {
+        return publishedDate;
+    }
+
+    public void setPublishedDate(Date publishedDate) {
+        this.publishedDate = publishedDate;
+    }
+
+    public Integer getPrice() {
+        return price;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
+    }
+
     public String getCategory() {
         return category;
     }
@@ -78,12 +91,12 @@ public class BookRequest {
         this.imageUrl = imageUrl;
     }
 
-    public Integer getPrice() {
-        return price;
+    public String getDescription() {
+        return description;
     }
 
-    public void setPrice(Integer price) {
-        this.price = price;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Integer getStock() {
@@ -102,27 +115,11 @@ public class BookRequest {
         this.salesCount = salesCount;
     }
 
-    public Boolean getIsPublic() {
-        return isPublic;
+    public String getOriginalUrl() {
+        return originalUrl;
     }
 
-    public void setIsPublic(Boolean aPublic) {
-        isPublic = aPublic;
-    }
-
-    public Date getPublishedDate() {
-        return publishedDate;
-    }
-
-    public void setPublishedDate(Date publishedDate) {
-        this.publishedDate = publishedDate;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public void setOriginalUrl(String originalUrl) {
+        this.originalUrl = originalUrl;
     }
 }
